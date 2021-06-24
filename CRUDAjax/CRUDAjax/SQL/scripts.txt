@@ -1,0 +1,58 @@
+﻿CREATE DATABASE Crud
+
+GO
+
+USE Crud
+
+GO
+
+CREATE TABLE dbo.Employee
+	(
+	EmployeeID INT IDENTITY NOT NULL,
+	Name NVARCHAR(50),
+	Age INT,
+	[State] NVARCHAR(50),
+	Country NVARCHAR(50),
+	CONSTRAINT PK_Employee PRIMARY KEY (EmployeeID)
+	)
+
+GO
+
+--Selecionar Funcionários  
+Create Procedure SelectEmployee    
+as     
+Begin    
+Select * from Employee;    
+End  
+  
+--Inserir e Atualizar funcionário  
+Create Procedure InsertUpdateEmployee    
+(    
+@Id integer,    
+@Name nvarchar(50),    
+@Age integer,    
+@State nvarchar(50),    
+@Country nvarchar(50),    
+@Action varchar(10)    
+)    
+As    
+Begin    
+if @Action='Insert'    
+Begin    
+ Insert into Employee(Name,Age,[State],Country) values(@Name,@Age,@State,@Country);    
+End    
+if @Action='Update'    
+Begin    
+ Update Employee set Name=@Name,Age=@Age,[State]=@State,Country=@Country where EmployeeID=@Id;    
+End      
+End  
+  
+--Deletar Funcionário  
+Create Procedure DeleteEmployee    
+(    
+ @Id integer    
+)    
+as     
+Begin    
+ Delete Employee where EmployeeID=@Id;    
+End  
